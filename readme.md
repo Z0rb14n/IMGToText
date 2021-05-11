@@ -1,4 +1,4 @@
-#IMGToText
+# IMGToText
 
 ## Black and white image to text converter
 

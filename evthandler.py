@@ -125,7 +125,7 @@ def get_string_from_surface() -> str:
 
 def _clear_or_add_pixels(pos: tuple):
     pos = tuple(int(ti / _pixel_scaling) for ti in pos)
-    if _pressed[1]:
+    if _pressed[2]:
         clear_pixels(pos)
     elif _pressed[0]:
         add_pixels(pos)

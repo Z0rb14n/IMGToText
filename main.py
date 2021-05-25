@@ -19,7 +19,7 @@ def get_cat() -> pygame.Surface:
 
 if __name__ == '__main__':
     pygame.init()
-    size = width, height = 120, 120
+    size = width, height = 100, 120
     black = (0, 0, 0)
     screen = pygame.display.set_mode((width, height))
 

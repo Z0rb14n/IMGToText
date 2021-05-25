@@ -1,39 +1,44 @@
 import pygame
 import evthandler
+import numpy as np
 
 cat = None
 
 
-def draw_rect(a, b, c, d, color=(0, 0, 0)):
-    temp = pygame.Rect((a, b), (a + c, b + d))
-    pygame.draw.rect(screen, color, temp, 0)
-
-
-def get_cat() -> pygame.Surface:
+def get_cat(size: tuple[int, int]=None) -> pygame.Surface:
     global cat, screen
-    if cat is None or cat.get_rect() != screen.get_rect() :
+    if cat is None or (size is not None and cat.get_rect().size != size):
         cat = pygame.image.load("C:\\Users\\babyb\\Pictures\\cat.png")
-        cat = pygame.transform.scale(cat, screen.get_rect().size)
+        if size is not None:
+            cat = pygame.transform.scale(cat, size)
     return cat
 
 
 if __name__ == '__main__':
     pygame.init()
-    size = width, height = 100, 120
+    drawer_size = 100, 120
+    drawer_offset = (30, 30)
+    drawer_additional_padding = (30, 30)
     black = (0, 0, 0)
-    screen = pygame.display.set_mode((width, height))
 
     assert pygame.image.get_extended()
     cat = get_cat()
     cat_rect = cat.get_rect()
-    evthandler.init((width, height))
+    evthandler.init(drawer_size)
+    window_size = tuple(np.add(evthandler.get_surface_size(),
+                               np.add(drawer_offset, drawer_additional_padding)))
+    screen = pygame.display.set_mode(window_size)
+    draw_rect_area = evthandler.get_surface().get_rect().move(drawer_offset[0], drawer_offset[1])
     while 1:
-        evthandler.update()
-        if evthandler.get_surface().get_rect() != screen.get_rect():
-            screen = pygame.display.set_mode(evthandler.get_surface().get_rect().size)
+        evthandler.update(offset=drawer_offset)
+        new_size = tuple(np.add(evthandler.get_surface_size(),
+                                np.add(drawer_additional_padding,
+                                       drawer_offset)))
+        if new_size != screen.get_rect().size:
+            screen = pygame.display.set_mode(new_size)
             cat = get_cat()
             cat_rect = cat.get_rect()
         screen.fill(black)
         screen.blit(cat, cat_rect)
-        screen.blit(evthandler.get_surface(), evthandler.get_surface().get_rect())
+        screen.blit(evthandler.get_surface(), draw_rect_area)
         pygame.display.update()

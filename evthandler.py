@@ -18,8 +18,12 @@ _is_inverted: bool = False
 _is_image_inverted: bool = False
 
 
+def get_surface_size() -> tuple[int, int]:
+    return _pixels.shape[0] * _pixel_scaling, _pixels.shape[1] * _pixel_scaling
+
+
 def get_surface() -> pygame.Surface:
-    global  _surface
+    global _surface
     return _surface
 
 

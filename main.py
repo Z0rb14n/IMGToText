@@ -5,7 +5,7 @@ import numpy as np
 cat = None
 
 
-def get_cat(size: tuple[int, int]=None) -> pygame.Surface:
+def get_cat(size: tuple[int, int] = None) -> pygame.Surface:
     global cat, screen
     if cat is None or (size is not None and cat.get_rect().size != size):
         cat = pygame.image.load("C:\\Users\\babyb\\Pictures\\cat.png")
